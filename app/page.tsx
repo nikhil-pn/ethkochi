@@ -8,7 +8,7 @@ const GOLD = "#f0a010";
 
 // How long the splash takes to dissolve into the home screen (ms). Kept in sync
 // with the CSS transition durations below.
-const TRANSITION_MS = 1050;
+const TRANSITION_MS = 4200;
 
 type Phase = "splash" | "leaving" | "home";
 
@@ -137,18 +137,16 @@ function SiteAudio({
   const faahRef = useRef<HTMLAudioElement>(null);
   const [audible, setAudible] = useState(false);
 
-  // Prime the looping soundtrack MUTED on mount so the mp3 buffers immediately;
-  // entry unmutes + fades it in.
+  // Keep the mute-button icon in sync and start buffering the soundtrack early —
+  // but DON'T play it yet. It plays exactly once, when the home screen lands.
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = 0.6;
+    audio.load();
     const sync = () =>
       setAudible(!audio.paused && !audio.muted && audio.volume > 0);
     const evs = ["play", "playing", "pause", "volumechange", "ended"];
     evs.forEach((e) => audio.addEventListener(e, sync));
-    audio.muted = true;
-    audio.play().catch(() => {});
     return () => evs.forEach((e) => audio.removeEventListener(e, sync));
   }, []);
 
@@ -206,8 +204,8 @@ function SiteAudio({
           on entry for a smooth hand-off to the home screen. */}
       {phase !== "home" && (
         <div
-          className={`fixed inset-0 z-[10000] flex select-none flex-col items-center justify-center overflow-hidden bg-black px-6 text-center transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] ${
-            leaving ? "pointer-events-none opacity-0 blur-md" : "opacity-100 blur-0"
+          className={`fixed inset-0 z-[10000] flex select-none flex-col items-center justify-center overflow-hidden bg-black px-6 text-center transition-opacity duration-[4000ms] ease-[cubic-bezier(0.65,0,0.35,1)] ${
+            leaving ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
           {/* elephant mark, top-left corner */}
@@ -221,8 +219,8 @@ function SiteAudio({
           />
 
           <div
-            className={`relative z-10 mx-auto flex max-w-md flex-col items-center gap-7 transition-transform duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] ${
-              leaving ? "scale-110" : "scale-100"
+            className={`relative z-10 mx-auto flex max-w-md flex-col items-center gap-7 transition-opacity duration-500 ease-out ${
+              leaving ? "opacity-0" : "opacity-100"
             }`}
           >
             {/* parental advisory label — black-bg image blends into the page */}
@@ -242,7 +240,7 @@ function SiteAudio({
 
             <button
               onClick={handleSplashClick}
-              className="group relative mt-1 inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#f0a010] px-8 py-3.5 text-base font-semibold tracking-wide text-black transition-all duration-300 ease-out animate-pulse-glow hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-[#ffb733] active:translate-y-0 active:scale-95"
+              className="group relative mt-1 inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#f0a010] px-8 py-3.5 text-base font-semibold tracking-wide text-black shadow-lg shadow-[#f0a010]/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-[#ffb733] hover:shadow-xl hover:shadow-[#f0a010]/50 active:translate-y-0 active:scale-95"
             >
               {/* shine sweep on hover */}
               <span className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[120%]" />
@@ -306,8 +304,8 @@ export default function Home() {
 
         {/* content smoothly fades + zooms in as the splash dissolves away */}
         <div
-          className={`relative z-10 mx-auto flex max-w-3xl flex-col items-center transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] ${
-            phase === "splash" ? "scale-[1.06] opacity-0" : "scale-100 opacity-100"
+          className={`relative z-10 mx-auto flex max-w-3xl flex-col items-center transition-all duration-[1500ms] ease-out ${
+            phase === "splash" ? "scale-[1.03] opacity-0" : "scale-100 opacity-100"
           }`}
         >
           {/* small "coming soon" sits above the logo */}
