@@ -266,7 +266,7 @@ export default function Home() {
           />
 
           <p className="mx-auto mt-5 max-w-xl text-lg text-white/85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] md:text-xl">
-            An Ethereum hackathon in God&apos;s Own City.
+            An Ethereum hackathon in God&apos;s Own Country.
           </p>
 
           <div className="mt-9">

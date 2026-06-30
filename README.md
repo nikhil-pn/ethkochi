@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# eatkochi 🍌⟠
 
-## Getting Started
+The promotional website for **ethKochi** — an Ethereum hackathon in Kochi,
+Kerala (*God's Own Country*). A deliberately brain-rotted teaser site: a
+parental-advisory gate, a can-can soundtrack, a counting "time you've wasted"
+timer, and a `/chips` easter egg.
 
-First, run the development server:
+🔗 **Repo:** https://github.com/nikhil-pn/eatkochi
+
+> ℹ️ This is the hackathon's marketing site. It is **not** related to any
+> assistant/agent ("eva-bot") tooling.
+
+---
+
+## Tech stack
+
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **Tailwind CSS v4**
+- `next/font` (Geist Sans)
+
+> ⚠️ Next.js 16 has breaking changes vs older versions. See `AGENTS.md` and check
+> `node_modules/next/dist/docs/` before writing framework code.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3001  (binds 0.0.0.0:3001)
+npm run build    # production build
+npm run start    # serve the production build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+app/
+  layout.tsx          # root layout — SEO metadata + viewport
+  page.tsx            # home / teaser (client component)
+  chips/page.tsx      # "free chips?" troll + contribute page
+  globals.css         # Tailwind import + theme tokens + scribble animation
+  favicon.ico         # icons, generated from public/assets/vector.png …
+  icon.png            #   … (favicon.ico + icon.png + apple-icon.png are
+  apple-icon.png      #   auto-wired by Next's metadata file conventions)
+  opengraph-image.png # social share cards (1200×630)
+  twitter-image.png
+public/assets/        # logos, hero video, soundtrack, images
+next.config.ts        # allowedDevOrigins (dev), poweredByHeader: false
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Brand guidelines
 
-To learn more about Next.js, take a look at the following resources:
+### Name & tagline
+- **Event name:** **ethKochi** (stylized lowercase "eth" + "Kochi"). Malayalam
+  lockup used on packaging art: **ETH കൊച്ചി**.
+- **Project / repo codename:** `eatkochi` (the "eat Kochi" food pun).
+- **Tagline:** *An Ethereum hackathon in God's Own Country.*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Colors
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Role | Hex | Usage |
+|------|-----|-------|
+| Gold (primary accent) | `#f0a010` | CTAs, links, eyebrows, highlights |
+| Gold — hover | `#ffb733` | hover state on gold buttons/links |
+| Black | `#000000` | primary background, theme-color |
+| Near-black | `#0a0a0a` | OG image / dark surfaces |
+| White | `#ffffff` | text on dark; `/chips` background |
+| Ink | `#171717` | body text on light surfaces |
 
-## Deploy on Vercel
+### Typography
+- **Geist Sans** via `next/font` (CSS var `--font-sans`); fallback `Arial`.
+- **Eyebrows / labels:** uppercase, wide letter-spacing (e.g. `tracking-[0.35em]`).
+- (Geist Mono was removed — it was never rendered.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Logo & assets (`public/assets/`)
+- `vector.png` — the orange ⟠ Ethereum diamond. **Favicon / icon source — keep it.**
+- `eatkochi-logo.png` — primary wordmark/logo (home hero + OG image).
+- `elephant-logo.png` — the elephant mark (top-left on the gate).
+- `chips-3.png` — the three "ETH കൊച്ചി Banana Chips" packets (the running gag).
+- `coming-soon.png` — "coming soon" lockup.
+- `parental-advisory.jpg` — the Explicit-Content gate label.
+- `laura_video.mp4` — hero background video · `cancan_trimmed.mp3` — soundtrack.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Voice & tone
+Irreverent, meme-y, "brain-rot" humour with a Kerala / Malayalam wink. Profanity
+and edgy jokes are on-brand — there is literally a parental-advisory gate.
+Playful, self-aware, slightly unhinged. **Never corporate.**
+
+---
+
+## Contributing
+
+PRs welcome — fork, branch, open a PR. There's a **surprise gift for contributors
+on conference day** 😉
+
+Before submitting, make sure both pass:
+
+```bash
+npx tsc --noEmit
+npm run lint
+```
+
+## SEO / deployment notes
+- Set `NEXT_PUBLIC_SITE_URL` to the production domain so Open Graph / canonical
+  URLs resolve absolutely (defaults to `https://ethkochi.com`).
+- Icons, Open Graph and Twitter images are wired via Next's metadata **file
+  conventions** in `app/` — no manual `<link>`/`<meta>` tags required.
