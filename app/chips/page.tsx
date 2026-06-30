@@ -37,7 +37,8 @@ export default function ChipsPage() {
           </p>
 
           <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
-            Hey — you really wanna help build this? Open a PR on the{" "}
+            Hey — you really want a bag of chips? Then help build this website:
+            open a PR on the{" "}
             <a
               href="https://github.com/nikhil-pn/ethkochi"
               target="_blank"
@@ -46,9 +47,19 @@ export default function ChipsPage() {
             >
               GitHub repo
             </a>
-            . Surprise gift for contributors on conference day, plus{" "}
-            <span className="font-semibold text-[#f0a010]">$100</span> for whoever
-            tops the home-page timer. 😉
+            , and you&apos;ll receive a surprise gift for your successful
+            contribution on conference day. Want the{" "}
+            <span className="font-semibold text-[#f0a010]">$100</span> too?
+            Complete the timer challenge, then post the video on X tagging{" "}
+            <a
+              href="https://x.com/web3kerala"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-[#f0a010] underline underline-offset-4 transition-colors hover:text-black"
+            >
+              @web3kerala
+            </a>
+            . 😉
           </p>
 
           <Link
