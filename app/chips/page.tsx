@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "free chips?",
   description:
-    "Free Kerala chips? Lmaooo. Petition for the merch, or help build ethKochi — surprise gift for contributors, plus $100 for the top brain-rot timer.",
+    "Free Kerala chips? Lmaooo. But you can help build ethKochi — surprise gift for contributors, plus $100 for whoever tops the brain-rot timer.",
 };
 
 export default function ChipsPage() {
@@ -37,20 +37,7 @@ export default function ChipsPage() {
           </p>
 
           <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
-            Want Kerala chips as actual merch? Go spam{" "}
-            <a
-              href="https://x.com/boldrin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-[#f0a010] underline underline-offset-4 transition-colors hover:text-black"
-            >
-              @boldrin
-            </a>{" "}
-            on X till it happens. 🍌
-          </p>
-
-          <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
-            Or help build it — open a PR on the{" "}
+            Hey — you really wanna help build this? Open a PR on the{" "}
             <a
               href="https://github.com/nikhil-pn/ethkochi"
               target="_blank"
