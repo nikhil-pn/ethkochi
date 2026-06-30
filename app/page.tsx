@@ -150,25 +150,6 @@ function SiteAudio({
     return () => evs.forEach((e) => audio.removeEventListener(e, sync));
   }, []);
 
-  // Once the home screen lands, start the soundtrack from the top with a smooth
-  // volume fade-in.
-  useEffect(() => {
-    if (phase !== "home") return;
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.currentTime = 0;
-    audio.muted = false;
-    audio.volume = 0;
-    audio.play().catch(() => {});
-    let v = 0;
-    const id = window.setInterval(() => {
-      v = Math.min(0.6, v + 0.04);
-      audio.volume = v;
-      if (v >= 0.6) window.clearInterval(id);
-    }, 35);
-    return () => window.clearInterval(id);
-  }, [phase]);
-
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -182,13 +163,26 @@ function SiteAudio({
     }
   };
 
-  // Splash CTA: fire the "faah" on the user's gesture, then kick off the transition.
+  // Splash CTA: fire the "faah" AND start the soundtrack fading in immediately
+  // (slow ~4s ramp, so there's no silent gap), then kick off the transition.
   const handleSplashClick = () => {
     const faah = faahRef.current;
     if (faah) {
       faah.currentTime = 0;
       faah.volume = 0.85;
       faah.play().catch(() => {});
+    }
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = 0;
+      audio.muted = false;
+      audio.volume = 0;
+      audio.play().catch(() => {});
+      const id = window.setInterval(() => {
+        const next = Math.min(0.6, audio.volume + 0.6 / 80);
+        audio.volume = next;
+        if (next >= 0.6) window.clearInterval(id);
+      }, 50);
     }
     onEnter();
   };
