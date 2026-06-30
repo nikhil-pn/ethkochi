@@ -158,7 +158,7 @@ function SiteAudio({ entered, onEnter }: { entered: boolean; onEnter: () => void
 
   return (
     <>
-      <audio ref={audioRef} src="/assets/cancan_trimmed.mp3" loop preload="auto" />
+      <audio ref={audioRef} src="/assets/final-audio.mp3" loop preload="auto" />
 
       {/* Pure-black parental-advisory warning gate. Entry is button-only. */}
       {!entered && (

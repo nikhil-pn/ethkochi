@@ -2,7 +2,7 @@
 
 The promotional website for **ethKochi** — an Ethereum hackathon in Kochi,
 Kerala (*God's Own Country*). A deliberately brain-rotted teaser site: a
-parental-advisory gate, a can-can soundtrack, a counting "time you've wasted"
+parental-advisory gate, a background soundtrack, a counting "time you've wasted"
 timer, and a `/chips` easter egg.
 
 🔗 **Repo:** https://github.com/nikhil-pn/ethkochi
@@ -81,7 +81,7 @@ next.config.ts        # allowedDevOrigins (dev), poweredByHeader: false
 - `chips-3.png` — the three "ETH കൊച്ചി Banana Chips" packets (the running gag).
 - `coming-soon.png` — "coming soon" lockup.
 - `parental-advisory.jpg` — the Explicit-Content gate label.
-- `laura_video.mp4` — hero background video · `cancan_trimmed.mp3` — soundtrack.
+- `laura_video.mp4` — hero background video · `final-audio.mp3` — soundtrack.
 
 ### Voice & tone
 Irreverent, meme-y, "brain-rot" humour with a Kerala / Malayalam wink. Profanity

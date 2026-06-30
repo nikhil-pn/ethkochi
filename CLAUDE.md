@@ -10,7 +10,7 @@ Kochi, Kerala** ("God's Own Country"). It's a Next.js 16 (App Router) teaser sit
 
 - **Brand, tone, colors, fonts, assets:** see `README.md` (brand guidelines).
 - **Stack:** Next.js 16, React 19, Tailwind v4, TypeScript. Dev runs on port 3001.
-- **Routes:** `/` (teaser — parental-advisory gate, can-can soundtrack, "time
+- **Routes:** `/` (teaser — parental-advisory gate, background soundtrack, "time
   wasted" counter) · `/chips` (the "free chips?" troll + contribute page).
 - **Repo:** https://github.com/nikhil-pn/ethkochi (public)
 
