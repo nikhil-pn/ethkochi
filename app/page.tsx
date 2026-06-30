@@ -6,6 +6,12 @@ import { useEffect, useRef, useState } from "react";
 
 const GOLD = "#f0a010";
 
+// How long the splash takes to dissolve into the home screen (ms). Kept in sync
+// with the CSS transition durations below.
+const TRANSITION_MS = 1050;
+
+type Phase = "splash" | "leaving" | "home";
+
 // Count-UP timer: how long the visitor has been "rotting" on this page since they
 // entered. Starts when `since` (entry timestamp) is set.
 function TimeWasted({ since }: { since: number | null }) {
@@ -86,7 +92,7 @@ function ChipsBait() {
     <Link
       href="/chips"
       aria-label="Free chips?"
-      className="group fixed right-4 top-4 z-[9999] flex items-center gap-2"
+      className="group animate-fade-in fixed right-4 top-4 z-[9999] flex items-center gap-2"
     >
       <span className="relative whitespace-nowrap rounded-full bg-white/90 px-3 py-1 text-xs font-medium italic text-neutral-900 backdrop-blur-sm md:text-sm">
         Free kerala chips?
@@ -117,32 +123,53 @@ function ChipsBait() {
   );
 }
 
-// Site soundtrack (loops the trimmed can-can). Controlled by the parent: entry is
-// the user's gesture (the splash button), which flips audio audible + reveals the site.
-function SiteAudio({ entered, onEnter }: { entered: boolean; onEnter: () => void }) {
+// Site soundtrack (loops final-audio) + the "faah" entry sound + the splash gate.
+// The parent owns the phase; clicking the gate fires the faah and asks the parent
+// to begin the transition.
+function SiteAudio({
+  phase,
+  onEnter,
+}: {
+  phase: Phase;
+  onEnter: () => void;
+}) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const faahRef = useRef<HTMLAudioElement>(null);
   const [audible, setAudible] = useState(false);
 
+  // Prime the looping soundtrack MUTED on mount so the mp3 buffers immediately;
+  // entry unmutes + fades it in.
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.6;
-    const sync = () => setAudible(!audio.paused && !audio.muted && audio.volume > 0);
+    const sync = () =>
+      setAudible(!audio.paused && !audio.muted && audio.volume > 0);
     const evs = ["play", "playing", "pause", "volumechange", "ended"];
     evs.forEach((e) => audio.addEventListener(e, sync));
-    // Prime MUTED so the mp3 buffers immediately; entry flips it audible.
     audio.muted = true;
     audio.play().catch(() => {});
     return () => evs.forEach((e) => audio.removeEventListener(e, sync));
   }, []);
 
+  // Once the home screen lands, start the soundtrack from the top with a smooth
+  // volume fade-in.
   useEffect(() => {
-    if (!entered) return;
+    if (phase !== "home") return;
     const audio = audioRef.current;
     if (!audio) return;
+    audio.currentTime = 0;
     audio.muted = false;
+    audio.volume = 0;
     audio.play().catch(() => {});
-  }, [entered]);
+    let v = 0;
+    const id = window.setInterval(() => {
+      v = Math.min(0.6, v + 0.04);
+      audio.volume = v;
+      if (v >= 0.6) window.clearInterval(id);
+    }, 35);
+    return () => window.clearInterval(id);
+  }, [phase]);
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -152,17 +179,37 @@ function SiteAudio({ entered, onEnter }: { entered: boolean; onEnter: () => void
       audio.muted = true;
     } else {
       audio.muted = false;
+      if (audio.volume === 0) audio.volume = 0.6;
       audio.play().catch(() => {});
     }
   };
 
+  // Splash CTA: fire the "faah" on the user's gesture, then kick off the transition.
+  const handleSplashClick = () => {
+    const faah = faahRef.current;
+    if (faah) {
+      faah.currentTime = 0;
+      faah.volume = 0.85;
+      faah.play().catch(() => {});
+    }
+    onEnter();
+  };
+
+  const leaving = phase === "leaving";
+
   return (
     <>
       <audio ref={audioRef} src="/assets/final-audio.mp3" loop preload="auto" />
+      <audio ref={faahRef} src="/assets/faah.mp3" preload="auto" />
 
-      {/* Pure-black parental-advisory warning gate. Entry is button-only. */}
-      {!entered && (
-        <div className="fixed inset-0 z-[10000] flex select-none flex-col items-center justify-center overflow-hidden bg-black px-6 text-center">
+      {/* Pure-black parental-advisory gate. Fades + blurs away (content zooms out)
+          on entry for a smooth hand-off to the home screen. */}
+      {phase !== "home" && (
+        <div
+          className={`fixed inset-0 z-[10000] flex select-none flex-col items-center justify-center overflow-hidden bg-black px-6 text-center transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+            leaving ? "pointer-events-none opacity-0 blur-md" : "opacity-100 blur-0"
+          }`}
+        >
           {/* elephant mark, top-left corner */}
           <Image
             src="/assets/elephant-logo.png"
@@ -173,7 +220,11 @@ function SiteAudio({ entered, onEnter }: { entered: boolean; onEnter: () => void
             className="absolute left-5 top-5 h-12 w-auto opacity-90 md:h-16"
           />
 
-          <div className="relative z-10 mx-auto flex max-w-md flex-col items-center gap-7">
+          <div
+            className={`relative z-10 mx-auto flex max-w-md flex-col items-center gap-7 transition-transform duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+              leaving ? "scale-110" : "scale-100"
+            }`}
+          >
             {/* parental advisory label — black-bg image blends into the page */}
             <Image
               src="/assets/parental-advisory.jpg"
@@ -190,24 +241,29 @@ function SiteAudio({ entered, onEnter }: { entered: boolean; onEnter: () => void
             </p>
 
             <button
-              onClick={onEnter}
-              className="mt-1 rounded-full bg-[#f0a010] px-8 py-3.5 text-base font-semibold tracking-wide text-black transition-all hover:bg-[#ffb733]"
+              onClick={handleSplashClick}
+              className="group relative mt-1 inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#f0a010] px-8 py-3.5 text-base font-semibold tracking-wide text-black transition-all duration-300 ease-out animate-pulse-glow hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-[#ffb733] active:translate-y-0 active:scale-95"
             >
-              Okay, hasta la vista, skibidis
+              {/* shine sweep on hover */}
+              <span className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[120%]" />
+              <span className="relative z-10">Okay, hasta la vista, skibidis</span>
+              <span className="relative z-10 transition-transform duration-300 ease-out group-hover:translate-x-1">
+                →
+              </span>
             </button>
           </div>
         </div>
       )}
 
       {/* shown once inside */}
-      {entered && (
+      {phase === "home" && (
         <>
           <ChipsBait />
           <button
             onClick={toggle}
             data-music-btn
             aria-label={audible ? "Mute music" : "Unmute music"}
-            className="fixed bottom-5 right-5 z-[9999] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/90 backdrop-blur-md transition-all hover:bg-white/20"
+            className="animate-fade-in fixed bottom-5 right-5 z-[9999] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/90 backdrop-blur-md transition-all hover:bg-white/20"
           >
             <SpeakerIcon muted={!audible} />
           </button>
@@ -218,18 +274,21 @@ function SiteAudio({ entered, onEnter }: { entered: boolean; onEnter: () => void
 }
 
 export default function Home() {
-  const [entered, setEntered] = useState(false);
+  const [phase, setPhase] = useState<Phase>("splash");
   const [enteredAt, setEnteredAt] = useState<number | null>(null);
 
-  const enter = () => {
-    if (entered) return;
-    setEntered(true);
-    setEnteredAt(Date.now());
+  const handleEnter = () => {
+    if (phase !== "splash") return;
+    setPhase("leaving");
+    window.setTimeout(() => {
+      setPhase("home");
+      setEnteredAt(Date.now());
+    }, TRANSITION_MS);
   };
 
   return (
-    <main className="relative min-h-screen bg-black font-sans text-white">
-      <SiteAudio entered={entered} onEnter={enter} />
+    <main className="relative min-h-screen overflow-hidden bg-black font-sans text-white">
+      <SiteAudio phase={phase} onEnter={handleEnter} />
 
       {/* Hero — vivid video with floating content */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-16 text-center">
@@ -245,7 +304,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/75" />
 
-        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center">
+        {/* content smoothly fades + zooms in as the splash dissolves away */}
+        <div
+          className={`relative z-10 mx-auto flex max-w-3xl flex-col items-center transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+            phase === "splash" ? "scale-[1.06] opacity-0" : "scale-100 opacity-100"
+          }`}
+        >
           {/* small "coming soon" sits above the logo */}
           <Image
             src="/assets/coming-soon.png"

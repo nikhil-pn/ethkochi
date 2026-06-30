@@ -40,3 +40,34 @@ body {
   stroke-dasharray: 220;
   animation: scribble-draw 2.4s ease-in-out infinite;
 }
+
+/* splash CTA — gentle pulsing gold glow that invites a click */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 30px -8px rgba(240, 160, 16, 0.55),
+      0 0 0 0 rgba(240, 160, 16, 0.45);
+  }
+  50% {
+    box-shadow:
+      0 10px 36px -6px rgba(240, 160, 16, 0.8),
+      0 0 0 12px rgba(240, 160, 16, 0);
+  }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2.6s ease-in-out infinite;
+}
+
+/* soft fade-in for the in-site controls once the home screen lands */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 0.7s ease-out both;
+}
