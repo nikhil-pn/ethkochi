@@ -1,11 +1,11 @@
-# eatkochi 🍌⟠
+# ethkochi 🍌⟠
 
 The promotional website for **ethKochi** — an Ethereum hackathon in Kochi,
 Kerala (*God's Own Country*). A deliberately brain-rotted teaser site: a
 parental-advisory gate, a can-can soundtrack, a counting "time you've wasted"
 timer, and a `/chips` easter egg.
 
-🔗 **Repo:** https://github.com/nikhil-pn/eatkochi
+🔗 **Repo:** https://github.com/nikhil-pn/ethkochi
 
 > ℹ️ This is the hackathon's marketing site. It is **not** related to any
 > assistant/agent ("eva-bot") tooling.
@@ -55,7 +55,7 @@ next.config.ts        # allowedDevOrigins (dev), poweredByHeader: false
 ### Name & tagline
 - **Event name:** **ethKochi** (stylized lowercase "eth" + "Kochi"). Malayalam
   lockup used on packaging art: **ETH കൊച്ചി**.
-- **Project / repo codename:** `eatkochi` (the "eat Kochi" food pun).
+- **Repo:** `ethkochi` on GitHub (it started life as the "eat Kochi" food-pun `eat-kochi`).
 - **Tagline:** *An Ethereum hackathon in God's Own Country.*
 
 ### Colors

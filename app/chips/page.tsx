@@ -62,7 +62,7 @@ export default function ChipsPage() {
           <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
             Wanna actually help build this site? Here&apos;s the{" "}
             <a
-              href="https://github.com/nikhil-pn/eatkochi"
+              href="https://github.com/nikhil-pn/ethkochi"
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-[#f0a010] underline underline-offset-4 transition-colors hover:text-black"
