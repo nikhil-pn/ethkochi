@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "free chips?",
   description:
-    "Free Kerala chips? Lmaooo. But you can help build ethKochi — surprise gift for contributors, plus $100 for whoever tops the brain-rot timer.",
+    "Free chips? Lmaooo. Help build ethKochi (open a PR) for a conference-day surprise gift, or take the $100 brainrot timer challenge — clock the highest for a special award and cash prize.",
 };
 
 export default function ChipsPage() {
@@ -24,7 +24,7 @@ export default function ChipsPage() {
         />
       </div>
 
-      {/* Copy — short and punchy, centered in the rest (~70%) */}
+      {/* Copy */}
       <div className="w-full md:flex-1">
         <div className="mx-auto max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#f0a010]">
@@ -32,25 +32,32 @@ export default function ChipsPage() {
           </p>
 
           <p className="mt-5 text-xl font-semibold leading-relaxed text-black md:text-2xl">
-            mf, they&apos;re not even paying me to build this website — you really
-            think they&apos;ll hand you free Kerala chips? Lmaooo.
+            These mfs, they&apos;re not even paying me to build this website — you
+            really think they&apos;ll hand you free chips? Lmaooo! 😆🤣
           </p>
 
           <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
-            Hey — you really want a bag of chips? Then help build this website:
-            open a PR on the{" "}
+            But if oomfs really want merch? Then help build this website (make
+            brainrot PR changes — go crazy): open a PR on{" "}
             <a
               href="https://github.com/nikhil-pn/ethkochi"
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-[#f0a010] underline underline-offset-4 transition-colors hover:text-black"
             >
-              GitHub repo
-            </a>
-            , and you&apos;ll receive a surprise gift for your successful
-            contribution on conference day. Want the{" "}
-            <span className="font-semibold text-[#f0a010]">$100</span> too?
-            Complete the timer challenge, then post the video on X tagging{" "}
+              GitHub
+            </a>{" "}
+            and you&apos;ll receive a surprise gift on conference day.
+          </p>
+
+          <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
+            Want a <span className="font-semibold text-[#f0a010]">$100</span>{" "}
+            challenge?
+          </p>
+
+          <p className="mt-6 text-base leading-relaxed text-black/70 md:text-lg">
+            Plus, are you ready for a quick challenge? Complete the brainrot timer
+            challenge, then post the video on X tagging{" "}
             <a
               href="https://x.com/web3kerala"
               target="_blank"
@@ -59,7 +66,8 @@ export default function ChipsPage() {
             >
               @web3kerala
             </a>
-            . 😉
+            . Whoever clocks the highest will get a special award and cash prize on
+            conference day. 🏆😉
           </p>
 
           <Link
