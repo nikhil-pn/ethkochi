@@ -234,7 +234,7 @@ function SiteAudio({
 
             <button
               onClick={handleSplashClick}
-              className="group relative mt-1 inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#f0a010] px-8 py-3.5 text-base font-semibold tracking-wide text-black shadow-lg shadow-[#f0a010]/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-[#ffb733] hover:shadow-xl hover:shadow-[#f0a010]/50 active:translate-y-0 active:scale-95"
+              className="group relative mt-1 inline-flex items-center gap-2 overflow-hidden rounded-full border border-[#f0a010]/50 bg-[#f0a010]/15 px-8 py-3.5 text-base font-semibold tracking-wide text-[#f0a010] backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.04] hover:border-[#f0a010]/70 hover:bg-[#f0a010]/25 active:translate-y-0 active:scale-95"
             >
               {/* shine sweep on hover */}
               <span className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[120%]" />
